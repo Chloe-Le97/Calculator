@@ -7,12 +7,15 @@
     <link href="https://fonts.googleapis.com/css2?family=PT+Serif&display=swap" rel="stylesheet">
 </head>
 <body>
+    
     <div class="calculator">
         <div class="output">
+            <table id="history"></table>
             <div data-previous-operand class="previous"></div>
             <div data-current-operand class="current"></div>
         </div>
-            <button data-all-clear type="button" class="span-two">AC</button>
+            <button data-history type="history">Mem</button>
+            <button data-all-clear type="button">AC</button>
             <button data-del type="button">del</button>
             <button data-operator type="button">:</button>
             <button data-number type="button">1</button>
@@ -35,8 +38,9 @@
         </div>
 </body>
 <script>
-    class Calculator{
-        constructor(previousOperand,currentOperand){
+     
+     class Calculator{
+        constructor(previousOperand,currentOperand,history){
             this.previousOperand = previousOperand;
             this.currentOperand = currentOperand;
             this.clear();
@@ -60,10 +64,11 @@
         chooseOperation(operation){
             if (this.currentOperand=== '') return;
             if (this.previousOperand !== ''){
-                this.compute()
+                this.compute();
+                this.updateHistory();
             }
             this.operation = operation;
-            this.previousOperand = this.currentOperand;
+            this.previousOperand = this.currentOperand + this.operation;
             this.currentOperand = '';
         }
 
@@ -88,6 +93,7 @@
                 default:
                 return 
             }
+                arr.push(`${prev} ${this.operation} ${current} = ${computation}`);
                 this.currentOperand = computation;
                 this.operation = undefined;
                 this.previousOperand = '';
@@ -100,15 +106,31 @@
 
         }
 
-    }
-      
+        updateHistory(){
+        if(arr.length<=4){
+        var str = '<tr>';
+        arr.forEach(function(a) {
+        str += '<td>'+ a + "&nbsp;" +"&nbsp;"+"&nbsp;"+"&nbsp;" +'</td>';
+        }); 
+
+        str += '</tr>';
+        document.getElementById("history").innerHTML = str;}
+        if(arr.length>4){
+          document.getElementById("history").innerHTML='';
+          arr.splice(0,4);
+        }  
+        }
+     }
+    var arr=[]; 
     const numberButtons = document.querySelectorAll('[data-number]');
     const operatorButtons = document.querySelectorAll('[data-operator]');
     const equalButtons = document.querySelector('[data-equal]');
+    const historyButtons = document.querySelector('[data-history]');
     const delButtons = document.querySelector('[data-del]');
     const allClearButtons = document.querySelector('[data-all-clear]');
     const previousOperand = document.querySelector('[data-previous-operand]'); 
     const currentOperand = document.querySelector('[data-current-operand]');   
+   
     
     const calculator = new Calculator(previousOperand,currentOperand);
 
@@ -124,21 +146,19 @@
         btn.addEventListener('click',()=>{
             calculator.chooseOperation(btn.innerText);
             calculator.updateDisplay();
-            btn.classList.add('choose');
         })
     })
 
     equalButtons.addEventListener('click', button =>{
         calculator.compute();
         calculator.updateDisplay();
-        operatorButtons.forEach(btn=>{btn.classList.remove('choose')});
-    })
-
+        console.log(arr);
+        calculator.updateHistory(); 
+        })
 
     allClearButtons.addEventListener('click', button =>{
         calculator.clear();
         calculator.updateDisplay();
-        operatorButtons.forEach(btn=>{btn.classList.remove('choose')});
     })
 
     delButtons.addEventListener('click', button =>{
@@ -146,6 +166,11 @@
         calculator.updateDisplay();
     })  
 
-     
+    historyButtons.addEventListener('click', button =>{
+        document.getElementById("history").innerHTML='';
+        arr.splice(0,arr.length);
+    })  
+
+
 </script>
 </html>

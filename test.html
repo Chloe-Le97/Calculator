@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+   
+    <title>Test</title>
+</head>
+<body>
+    <button id='butt' type="button">Update history</button>
+    <ul>
+        <li id="history">Hello</li>
+    </ul>
+</body>
+</html>
+<script>
+    arr=["hello","hi","babe","huhu","hihi","hix"]
+    var str = '<ul>'
+
+    arr.forEach(function(a) {
+  str += '<li>'+ a + '</li>';
+}); 
+
+str += '</ul>';
+document.getElementById("history").innerHTML = str;
+</script>

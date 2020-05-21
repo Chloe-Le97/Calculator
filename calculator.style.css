@@ -1,6 +1,4 @@
-.choose{
-    background-color: lavenderblush;
-}
+
 body{
     padding:0;
     margin:0;
@@ -12,7 +10,7 @@ body{
     justify-content: center;
     align-content: center;
     min-height: 100vh;
-    grid-template-columns: repeat(4, 100px);
+    grid-template-columns: repeat(4, 200px);
     grid-template-rows: minmax(100px,auto) repeat(5, 100px);
     grid-column-gap: 2px;
     grid-row-gap: 2px;
@@ -28,6 +26,10 @@ button{
     background-color: #c1cfff;
     
 }   
+button:hover {
+    cursor: pointer;
+    background-color: whitesmoke;
+}
 .output{
     grid-column: 1/-1;
     background-color: #8089a8;
@@ -35,3 +37,10 @@ button{
     font-size: 40px;
     color: honeydew;
 }
+#history{
+    margin-left: 35px;
+    font-size: 25px;
+  
+}
+
+
